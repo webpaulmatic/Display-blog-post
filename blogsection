@@ -1,169 +1,75 @@
-<style>
-.post-section-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 64px;
-  background-color: #FBFAF9;
-  border-radius: 30px;
-  box-shadow: 0px 4px 10px 6px rgba(0, 0, 0, 0.07);
-}
-
-.post-section-container h2 {
-  color: var(--Secondary-Rich-Brown-RB-100, #7F6145);
-  margin-bottom: 24px;
-}
-
-.post-section-container .bheader {
-  color: var(--Black, #000);
-  text-align: center;
-  font-family: Lato;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 28px; /* 155.556% */
-  letter-spacing: 0.8px;
-  max-width: 588px;
-  margin-bottom: 64px;
-}
-
-.dflex-blog-post {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  gap: 64px;
-}
-
-.post-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
-}
-
-.dflex-blog-post .post-item .title {
-  color: var(--Secondary-Caramel-C-100, #D1AD86);
-  margin-bottom: 24px;
-  text-decoration: none;
-}
-
-.dflex-blog-post .post-item p {
-  color: var(--Accent-Black-BL-100, #000);
-  font-family: Lato;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 26px; /* 162.5% */
-  letter-spacing: 0.6px;
-  text-align: left;
-  max-width: 314px;
-  margin-bottom: 50px;
-}
-
-.dflex-blog-post .post-item a {
-  border-radius: 8px;
-  border: 1px solid var(--Primary-Forest-Green-FG-75, #747C74);
-  background: var(--Primary-Forest-Green-FG-75, #747C74);
-  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
-  padding: 12px 20px;
-  color: var(--Primary-Beige-B-10, #FBFAF9);
-  font-family: Lato;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 16px; /* 100% */
-  letter-spacing: 0.6px;
-  text-decoration: none;
-}
-
-@media only screen and (max-width: 1250px) {
-  .post-section-master-container{
-  padding: 0 20px;
-  }
-  
-}
-
-@media only screen and (max-width: 770px) {
-    .post-section-container {
-   align-items: start;   
-  }
-
-    
-   
-  .post-section-container .bheader {
-    font-size: 16px;
-    text-align: left;
-    line-height: 28px;
-    margin-bottom: 30px;
-  }
-  .post-section-master-container {
-   padding: 0 22px; 
-  }
- .dflex-blog-post .post-item .title {
-   margin-bottom: 10px; 
-  }
-  .dflex-blog-post {
-   flex-direction: column;
-    gap: 30px;
-  }
-  .post-section-container {
-   padding: 32px;
-  }
-  .dflex-blog-post .post-item p {
-   margin-bottom: 30px; 
-  }
-}
-.post-section-master-container .anm-cycle-hover {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  width:fit-content;
-}
-</style>
-
-{% if module.blog_field %}
-{% set recent_posts = blog_recent_posts(module.blog_field, 3) %}
+{% if module.query.get_most_recent_blogs %}
+{% set posts = blog_recent_posts(module.query.blog, 12) %}
 {% else %}
-{% set recent_posts = blog_recent_posts(144611005, 3) %}
+{% set posts = blog_recent_tag_posts(module.query.blog, module.query.tag, 12) %}
 {% endif %}
 
-<div class="post-section-master-container otsdcr-padlr">
+<div class="global-padding">
+ <div class="mw-container">
+   
+<section class="swiper-section">
+  <div class="module-header-container related-post-slider-header mobile-align-left">
+ 
+      <style>
+        .related-post-slider-header .mw564 {
+          max-width: 640px;
+        }
+      </style>
+      <h2 class="h2 textcenter mb22 mw564">{{ module.module_header.header }}</h2>
+      <div class="textcenter mb32 mw700">{{ module.module_header.description }}</div>
+      {% set lang_slug = content.language.languageTag|lower %}
+      <a class="simple-btn-dotted plge-label" href="{{ module.module_header.link_url.url.href }}?tag={{ module.module_header.related_tag }}">{{ module.module_header.link_text }}</a>
+  </div>
   
-
-<div class="post-section-container">
-  <h2 class="h2">
-   {{ module.section_title }}
-  </h2>
-  
-  <p class="bheader">
-    {{ module.long_text }}
-  </p>
-
-
-<div class="dflex-blog-post">
-    
+  <div class="related-posts-slider">
+    <div class="swiper-wrapper">
       
-      {% for testp in recent_posts %}
-      <div class="post-item">
-        
-        <h4 class="h4 title">
-          {{ testp.name }}
-        </h4>
-        
-        <p class="item-desc">
-          {{ testp.post_list_content|striptags|truncatehtml(100) }}
-        </p>
-        
-        <a class="anm-cycle-hover fg-cycle-color" href="{{testp.absolute_url}}">{{ module.button_text }} <svg style=" margin-left: 5px;"xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M6 3.33331L10 7.99998L6 12.6666" stroke="#FBFAF9" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></a>
-        
+      {% for item in posts %}
+      <div class="swiper-slide">
+        <article>
+          <a href="{{ item.absolute_url }}"><img class="featured-image" src="{{ item.featured_image }}"/></a>
+          <div class="article-info article-container-padding">
+            <span class="pxsml-label date">{{ item.publish_date | format_date('dd/MM/YY') }}</span>
+            {% if item.tag_list %}
+            <div class="tags-container">
+              {% for tag in item.tag_list %}
+              <span class="pxsml-label tag">{{ tag }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+            <a href="{{ item.absolute_url }}"><h3>{{ item.name }}</h3></a>
+            <div class="excerpt-container">
+              <p class="p3 excerpt">{{ item.meta_description }}</p>
+            </div>
+          </div>
+          <div class="article-container-padding">
+            <a class="simple-btn-dotted plge-label" href="{{ item.absolute_url }}">
+                {% if content.language == "en" %}
+                  Read more
+                {% elif content.language == "nl" %}
+                  Lees verder
+                {% else %}
+                  Read more
+                {% endif %}   
+            </a>
+          </div>
+        </article>
       </div>
       {% endfor %}
-    
+      
+    </div>
+    <div class="swiper-navigation">
+      <div class="swiper-dots"></div>
+      <div class="swiper-arrows">
+        <button class="swiper-prev"><img src="https://25716225.fs1.hubspotusercontent-eu1.net/hubfs/25716225/Icons/left%20arrow%20icon.svg"/></button>
+        <button class="swiper-next"><img src="https://25716225.fs1.hubspotusercontent-eu1.net/hubfs/25716225/Icons/right%20arrow%20icon.svg"/></button>
+      </div>
+    </div>
+  </div>
+  
+</section>
+    </div>
   </div>
 
+<div class="swiper-wrapper" id="strong-test">
 </div>
-  
-  </div>
