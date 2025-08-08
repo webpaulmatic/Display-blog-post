@@ -1,0 +1,169 @@
+<style>
+.post-section-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 64px;
+  background-color: #FBFAF9;
+  border-radius: 30px;
+  box-shadow: 0px 4px 10px 6px rgba(0, 0, 0, 0.07);
+}
+
+.post-section-container h2 {
+  color: var(--Secondary-Rich-Brown-RB-100, #7F6145);
+  margin-bottom: 24px;
+}
+
+.post-section-container .bheader {
+  color: var(--Black, #000);
+  text-align: center;
+  font-family: Lato;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px; /* 155.556% */
+  letter-spacing: 0.8px;
+  max-width: 588px;
+  margin-bottom: 64px;
+}
+
+.dflex-blog-post {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 64px;
+}
+
+.post-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.dflex-blog-post .post-item .title {
+  color: var(--Secondary-Caramel-C-100, #D1AD86);
+  margin-bottom: 24px;
+  text-decoration: none;
+}
+
+.dflex-blog-post .post-item p {
+  color: var(--Accent-Black-BL-100, #000);
+  font-family: Lato;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px; /* 162.5% */
+  letter-spacing: 0.6px;
+  text-align: left;
+  max-width: 314px;
+  margin-bottom: 50px;
+}
+
+.dflex-blog-post .post-item a {
+  border-radius: 8px;
+  border: 1px solid var(--Primary-Forest-Green-FG-75, #747C74);
+  background: var(--Primary-Forest-Green-FG-75, #747C74);
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  padding: 12px 20px;
+  color: var(--Primary-Beige-B-10, #FBFAF9);
+  font-family: Lato;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16px; /* 100% */
+  letter-spacing: 0.6px;
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 1250px) {
+  .post-section-master-container{
+  padding: 0 20px;
+  }
+  
+}
+
+@media only screen and (max-width: 770px) {
+    .post-section-container {
+   align-items: start;   
+  }
+
+    
+   
+  .post-section-container .bheader {
+    font-size: 16px;
+    text-align: left;
+    line-height: 28px;
+    margin-bottom: 30px;
+  }
+  .post-section-master-container {
+   padding: 0 22px; 
+  }
+ .dflex-blog-post .post-item .title {
+   margin-bottom: 10px; 
+  }
+  .dflex-blog-post {
+   flex-direction: column;
+    gap: 30px;
+  }
+  .post-section-container {
+   padding: 32px;
+  }
+  .dflex-blog-post .post-item p {
+   margin-bottom: 30px; 
+  }
+}
+.post-section-master-container .anm-cycle-hover {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:fit-content;
+}
+</style>
+
+{% if module.blog_field %}
+{% set recent_posts = blog_recent_posts(module.blog_field, 3) %}
+{% else %}
+{% set recent_posts = blog_recent_posts(144611005, 3) %}
+{% endif %}
+
+<div class="post-section-master-container otsdcr-padlr">
+  
+
+<div class="post-section-container">
+  <h2 class="h2">
+   {{ module.section_title }}
+  </h2>
+  
+  <p class="bheader">
+    {{ module.long_text }}
+  </p>
+
+
+<div class="dflex-blog-post">
+    
+      
+      {% for testp in recent_posts %}
+      <div class="post-item">
+        
+        <h4 class="h4 title">
+          {{ testp.name }}
+        </h4>
+        
+        <p class="item-desc">
+          {{ testp.post_list_content|striptags|truncatehtml(100) }}
+        </p>
+        
+        <a class="anm-cycle-hover fg-cycle-color" href="{{testp.absolute_url}}">{{ module.button_text }} <svg style=" margin-left: 5px;"xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M6 3.33331L10 7.99998L6 12.6666" stroke="#FBFAF9" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></a>
+        
+      </div>
+      {% endfor %}
+    
+  </div>
+
+</div>
+  
+  </div>
